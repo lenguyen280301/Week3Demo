@@ -21,19 +21,25 @@ public class HelloWorldServlet extends HttpServlet {
     @Override 
     protected void doGet (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/HelloWorldForm.jsp")
-                .forward(request, response); 
+            getServletContext().getRequestDispatcher("/WEB-INF/HelloWorldForm.jsp")
+                .forward(request, response);
     }
 
     @Override 
     protected void doPost (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String firstname = request.getParameter("firstname"); 
         String lastname = request.getParameter("lastname"); 
         
         request.setAttribute("firstname", firstname);
         request.setAttribute("lastname", lastname);
-        
+        if(firstname == null || firstname.equals("") || lastname == null || lastname.equals("")) {            
+            getServletContext().getRequestDispatcher("/WEB-INF/HelloWorldForm.jsp")
+                .forward(request, response);
+            return; 
+        }
+           
         getServletContext().getRequestDispatcher("/WEB-INF/sayHello.jsp")
                 .forward(request, response);
     }
